@@ -158,6 +158,64 @@ void input()
     }
 }
 
+void gameLogic()
+{
+    //> 1. Track Position
+    int prevX = snakeX[0];
+    int prevY = snakeY[0];
+    int prev2X, prev2Y;
+
+    //> 2. Move Snake
+    //? 2.1. Head
+    switch (direction)
+    {
+    case LEFT:
+        snakeX[0]--;
+        break;
+    case RIGHT:
+        snakeX[0]++;
+        break;
+    case UP:
+        snakeY[0]--;
+        break;
+    case DOWN:
+        snakeY[0]++;
+        break;
+    }
+
+    //? 2.2. Body
+    for (int i = 1; i < snakeLength; i++)
+    {
+        prev2X = snakeX[i];
+        prev2Y = snakeY[i];
+
+        snakeX[i] = prevX;
+        snakeY[i] = prevY;
+
+        prevX = prev2X;
+        prevY = prev2Y;
+    }
+
+    //> 3. Check Collisions
+    //? 3.1. Wall
+    if (snakeX[0] >= WIDTH or snakeX[0] < 0 or snakeY[0] >= HEIGHT or snakeY[0] < 0)
+        gameOver = true;
+
+    //? 3.2. Self
+    for (int i = 1; i < snakeLength; i++)
+        if (snakeX[0] == snakeX[i] and snakeY[0] == snakeY[i])
+            gameOver = true;
+
+    //? 3.3. Food
+    if (snakeX[0] == foodX and snakeY[0] == foodY)
+    {
+        score += 10;
+        snakeLength++;
+        foodX = rand() % WIDTH;
+        foodY = rand() % HEIGHT;
+    }
+}
+
 int main()
 {
     return 0;
