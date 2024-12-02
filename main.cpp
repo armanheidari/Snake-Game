@@ -54,6 +54,72 @@ void setupGame()
     foodY = rand() % HEIGHT;
 }
 
+void draw()
+{
+    //> 0. Move Cursor to top-left
+    COORD coord = {0, 0};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+
+    //> 1. Top Border
+    cout << V_INDENT << H_INDENT;
+    for (int i = 0; i < WIDTH + 2; i++)
+        cout << char(220); // ▄
+    cout << endl;
+
+    //> 2. Game Area
+    for (int y = 0; y < HEIGHT; y++)
+    {
+        for (int x = 0; x < WIDTH; x++)
+        {
+            //? 2.1. Left Border
+            if (x == 0)
+                cout << H_INDENT << char(219); // █
+
+            bool printed = false;
+
+            //? 2.2. Snake
+            for (int k = 0; k < snakeLength; k++)
+            {
+                if (snakeX[k] == x && snakeY[k] == y)
+                {
+                    if (k == 0)
+                        cout << "O"; //. Head
+                    else
+                        cout << char(254); //. Body - ■
+                    printed = true;
+                    break;
+                }
+            }
+
+            //? 2.3. Food
+            if (not printed and foodX == x and foodY == y)
+            {
+                cout << "*";
+                printed = true;
+            }
+
+            //? 2.5. Empty Space
+            if (not printed)
+                cout << " ";
+
+            //? 2.6. Right Border
+            if (x == WIDTH - 1)
+                cout << char(219); // █
+        }
+    }
+
+    //> 3. Bottom Border
+    cout << H_INDENT;
+    for (int i = 0; i < WIDTH + 2; i++)
+        cout << char(223); // ▀
+    cout << V_INDENT << endl;
+
+    //> 4. Score
+    cout << H_INDENT;
+    printSpaces(WIDTH / 2 - 3);
+    cout << "Score: " << score << endl;
+}
+
 void input()
 {
     if (_kbhit())
