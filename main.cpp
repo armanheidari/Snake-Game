@@ -37,6 +37,23 @@ void SetCursorVisibility(bool visible)
     SetConsoleCursorInfo(consoleHandle, &info);
 }
 
+void setupGame()
+{
+    SetCursorVisibility(false);
+    system("cls");
+
+    gameOver = false;
+    direction = STOP;
+    score = 0;
+
+    snakeLength = 1;
+    snakeX[0] = WIDTH / 2;
+    snakeY[0] = HEIGHT / 2;
+
+    foodX = rand() % WIDTH;
+    foodY = rand() % HEIGHT;
+}
+
 int main()
 {
     return 0;
