@@ -28,7 +28,7 @@ void printSpaces(int n)
         cout << " ";
 }
 
-void SetCursorVisibility(bool visible)
+void setCursorVisibility(bool visible)
 {
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO info;
@@ -39,7 +39,7 @@ void SetCursorVisibility(bool visible)
 
 void setupGame()
 {
-    SetCursorVisibility(false);
+    setCursorVisibility(false);
     system("cls");
 
     gameOver = false;
@@ -52,6 +52,44 @@ void setupGame()
 
     foodX = rand() % WIDTH;
     foodY = rand() % HEIGHT;
+}
+
+void input()
+{
+    if (_kbhit())
+    {
+        switch (_getch())
+        {
+        case 'a':
+        case 75: // Left arrow
+            if (direction != RIGHT)
+                direction = LEFT;
+            break;
+
+        case 'd':
+        case 77:
+            if (direction != LEFT)
+                direction = RIGHT;
+            break;
+
+        case 'w':
+        case 72:
+            if (direction != DOWN)
+                direction = UP;
+            break;
+
+        case 's':
+        case 80:
+            if (direction != UP)
+                direction = DOWN;
+            break;
+
+        case 'x':
+        case 27: // ESC key
+            gameOver = true;
+            break;
+        }
+    }
 }
 
 int main()
