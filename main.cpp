@@ -104,7 +104,7 @@ void draw()
 
             //? 2.6. Right Border
             if (x == WIDTH - 1)
-                cout << char(219); // █
+                cout << char(219) << endl; // █
         }
     }
 
@@ -218,5 +218,14 @@ void gameLogic()
 
 int main()
 {
+    setupGame();
+    while (not gameOver)
+    {
+        draw();
+        input();
+        gameLogic();
+        Sleep(50);
+    }
+    setCursorVisibility(true);
     return 0;
 }
